@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Compras</title>
+
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <h1 class="title">Lista de Compras</h1>
+
+    <ul class="item-container" id="itemContainer">
+        <!-- ITEMS GO HERE -->
+    </ul>
+
+    <div>
+        <input id="input" placeholder="Nome do item"></input>
+        <button type="button" onclick="onAddClick()">Adicionar</button>
+    </div>
+
+    <script>
+        const itemContainer = document.getElementById("itemContainer")
+        const inputBox = document.getElementById("input")
+
+        let items = []
+
+        function onItemClick(event) {
+            const itemText = event.currentTarget
+            const item = items.find(item => item.name == itemText.innerText)
+
+            if (item) {
+                item.done = !item.done
+
+                if (item.done) {
+                    itemText.style.textDecoration = "line-through"
+                    itemText.style.fontWeight = "initial"
+                }
+                else {
+                    itemText.style.textDecoration = "none"
+                    itemText.style.fontWeight = "bold"
+                }
+            }
+        }
+
+        function onAddClick() {
+            if (inputBox.value != "" && !items.find(item => item.name == inputBox.value)) {
+                let item = {
+                    name: inputBox.value.trim(),
+                    done: false
+                }
+                items.push(item)
+
+                let newItemElement = document.createElement("li")
+                itemContainer.appendChild(newItemElement)
+
+                newItemElement.innerText = inputBox.value
+                newItemElement.classList.add("item")
+
+                newItemElement.addEventListener("click", onItemClick)
+
+                inputBox.value = ""
+            }
+        }
+
+    </script>
+</body>
+
+</html>
